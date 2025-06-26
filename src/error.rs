@@ -4,6 +4,7 @@ use std::{fmt::Display, num::TryFromIntError, string::FromUtf8Error};
 pub enum Error {
     NotAnArray,
     Incomplete,
+    EndOfStream,
     Custom(String),
 }
 impl core::error::Error for Error {}
@@ -14,6 +15,10 @@ impl Display for Error {
             Self::Custom(s) => write!(f, "Custom error: '{s}'"),
             Self::Incomplete => write!(f, "Not enough data"),
             Self::NotAnArray => write!(f, "Frame type is not an array!"),
+            Self::EndOfStream => write!(
+                f,
+                "Attempting to extract a value failed due to the frame being fully consumed"
+            ),
         }
     }
 }
